@@ -5,15 +5,16 @@
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1",
-    "redux": "*",
     "react-redux": "*",
-    "redux-saga": "*",
-    "redux-immutable": "*",
     "react-router-dom": "*",
     "react-router-redux": "*",
+    "react-scripts": "1.1.1",
+    "redux": "*",
+    "redux-immutable": "*",
     "redux-logger": "*",
-    "redux-thunk": "*"
+    "redux-saga": "*",
+    "redux-thunk": "*",
+    "semantic-ui-react": "^0.78.3"
   },
   "scripts": {
     "start": "react-scripts start",
