@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "history": "^4.7.2",
+    "moment": "^2.20.1",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-redux": "*",
     "react-router-dom": "*",
@@ -13,8 +17,7 @@
     "redux-immutable": "*",
     "redux-logger": "*",
     "redux-saga": "*",
-    "redux-thunk": "*",
-    "semantic-ui-react": "^0.78.3"
+    "redux-thunk": "*"
   },
   "scripts": {
     "start": "react-scripts start",

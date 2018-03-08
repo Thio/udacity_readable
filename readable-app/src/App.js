@@ -1,18 +1,48 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import logo from './logo.svg';
 import './css/App.css';
+import './css/bootstrap.min.css';
+import {Breadcrumb, BreadcrumbItem} from 'react-bootstrap/lib';
+import PropTypes from 'prop-types';
+import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import NotFound from './components/NotFound'
+import FirstGlance from './components/firstGlance'
 
-class App extends Component {
+
+
+class App extends React.Component {
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Readable</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Breadcrumb>
+            <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+            <Breadcrumb.Item href="/category">
+              Library
+          </Breadcrumb.Item>
+            <Breadcrumb.Item active>Data</Breadcrumb.Item>
+          </Breadcrumb>
+
+          <Switch>
+          <Route
+            exact path='/'
+            render={(props) =>(
+                <FirstGlance/>
+              )}
+          />
+          <Route
+          path='/404'
+          render={(props) =>(
+            <NotFound/>
+          )}/>
+          <Redirect from='*' to='/404' />
+        </Switch>
+
+
       </div>
     );
   }
