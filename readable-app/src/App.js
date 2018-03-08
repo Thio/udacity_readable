@@ -16,9 +16,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header />
+        {/* Header */}
+        {/* <Header /> */}
         <NavigationBar />
 
+        {/*  Content */}
         <Switch>
           <Route
             exact path='/'
@@ -34,6 +36,7 @@ class App extends React.Component {
           <Redirect from='*' to='/404' />
         </Switch>
 
+        {/* Footer */}
 
       </div>
     );
