@@ -1,11 +1,13 @@
+// Libary Imports
 import * as React from 'react';
+import PropTypes from 'prop-types';
+import { Link, Route, Redirect, Switch } from 'react-router-dom'
+
+// CSS Imports
 import 'css/App.css';
 import 'css/bootstrap.min.css';
 
-import PropTypes from 'prop-types';
-
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
-
+// Component Imports
 import NotFound from 'components/NotFound'
 import FirstGlance from 'components/firstGlance'
 import NavigationBar from 'components/navigation-bar'

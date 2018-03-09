@@ -16,6 +16,7 @@
     "redux": "*",
     "redux-immutable": "*",
     "redux-logger": "*",
+    "redux-promise-middleware": "^5.0.0",
     "redux-saga": "*",
     "redux-thunk": "*"
   },
