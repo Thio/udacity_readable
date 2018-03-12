@@ -12,7 +12,7 @@ import reducer from "reducers"
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // get middleware
-const middleware = applyMiddleware(thunk/*, logger(), promise()*/);
+const middleware = applyMiddleware(thunk, logger, promise());
 
 // create and export store
 export default createStore(reducer, composeEnhancers(middleware));

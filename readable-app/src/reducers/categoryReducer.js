@@ -16,10 +16,12 @@ const initialCategoryReducerState = {
  |_| \_\_____| |_|  \___/|_| \_\_| \_| /_/   \_\ |_| \_|_____|  \_/\_/     \___/|____/ \___/|_____\____| |_|
 
 */
-export default function reducer(state = initialCategoryReducerState, action){
+
+export default function categoryReducer(state = initialCategoryReducerState, action){
   switch(action.type){
     // TODO add reducers
     default:
+      return state;
       break;
   }
 }
