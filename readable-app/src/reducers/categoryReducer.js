@@ -1,9 +1,7 @@
 import { actionDefinition } from 'actions/categoryActions'
 
 
-const initialCategoryReducerState = {
-
-}
+const initialCategoryReducerState = []
 
 /*
   ____   ___  _   _ _____   __  __ _   _ _____  _  _____ _____   _____ _   _ _____   ____ _____  _  _____ ___
@@ -24,10 +22,7 @@ export default function categoryReducer(state = initialCategoryReducerState, act
   switch(action.type){
     // TODO add reducers
     case actionDefinition.fetchCategory:
-      return {
-        ...state,
-        category: action.payload
-      }
+      return [...action.payload.categories]
       break;
     default:
       return state;

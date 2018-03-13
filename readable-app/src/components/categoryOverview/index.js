@@ -13,7 +13,6 @@ class CategoryOverView extends Component {
   }
 
   render() {
-    console.log("props", this.props)
     return (
       <div>
         {}
@@ -24,17 +23,16 @@ class CategoryOverView extends Component {
 
 function mapDispatchToProps(dispatch){
   return {
-    fetchCategories: (data) => dispatch(categoryActions.fetchCategoriesFromService())
+    fetchCategories: (data) => categoryActions.fetchCategoriesAjax().subscribe(function(data){
+      console.log("fetchCategory", data)
+      dispatch(categoryActions.fetchCategoriesFromService(data))
+    })
   }
 }
 
 function mapStateToProps(state){
-  console.log("state", state);
-  console.log("new state", {
-    "category": [...state.category]
-  });
   return {
-    "category": [...state.category]
+    ...state
   }
 }
 

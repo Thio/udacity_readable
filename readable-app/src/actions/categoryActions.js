@@ -26,14 +26,14 @@ export function fetchCategorys(){
   }
 }
 
-export function fetchCategoriesFromService(){
-  return {
-    type: actionDefinition.fetchCategory,
-    payload: fetchCategoriesAjax()
-  }
+export function fetchCategoriesFromService(data){
+     return {
+      type: actionDefinition.fetchCategory,
+      payload:data
+    };
 }
 
-function fetchCategoriesAjax(){
+export function fetchCategoriesAjax(){
   const a = Rx.Observable
       .ajax({
         url: 'http://localhost:3001/categories',
