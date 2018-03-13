@@ -7,6 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
 
 import * as categoryActions from 'actions/categoryActions'
+import * as postsActions from 'actions/postsActions'
 
 class NavigationBar extends Component {
 
@@ -26,8 +27,8 @@ class NavigationBar extends Component {
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-          <Navbar.Text>
-            Categories:
+            <Navbar.Text>
+              Categories:
           </Navbar.Text>
             <Nav>
               {/* {
@@ -84,6 +85,9 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchCategories: (data) => categoryActions.fetchCategoriesAjax().subscribe(function (data) {
       dispatch(categoryActions.fetchCategoriesFromService(data))
+    }),
+    fetchPosts: (data) => postsActions.fetchAllPostsAjax().subscribe(function (data) {
+      dispatch(categoryActions.fetchAllPostsFromService(data))
     })
   }
 }

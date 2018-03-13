@@ -1,6 +1,6 @@
-const initialPostsReducerState = {
+import { actionDefinition } from 'actions/postsActions'
 
-}
+const initialPostsReducerState = []
 
 /*
   ____   ___  _   _ _____   __  __ _   _ _____  _  _____ _____   _____ _   _ _____   ____ _____  _  _____ ___
@@ -20,8 +20,11 @@ const initialPostsReducerState = {
 export default function postsReducer(state = initialPostsReducerState, action){
   switch(action.type){
     // TODO add reducers
+    case actionDefinition.fetchAllPosts:
+      return [...action.payload.categories]
+      break;
     default:
-    return state;
+      return state;
       break;
   }
 }
