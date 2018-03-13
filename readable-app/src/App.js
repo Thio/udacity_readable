@@ -10,12 +10,15 @@ import 'css/bootstrap.min.css';
 // Component Imports
 import NotFound from 'components/NotFound'
 import FirstGlance from 'components/firstGlance'
+import CategoryOverview from 'components/categoryOverview'
 import NavigationBar from 'components/navigation-bar'
 import Header from 'components/header'
+
 
 class App extends React.Component {
 
   render() {
+
     return (
       <div className="App">
         {/* Header */}
@@ -34,6 +37,11 @@ class App extends React.Component {
             path='/404'
             render={(props) => (
               <NotFound />
+            )} />
+            <Route
+            path='/Categories'
+            render={(props) => (
+              <CategoryOverview />
             )} />
           <Redirect from='*' to='/404' />
         </Switch>

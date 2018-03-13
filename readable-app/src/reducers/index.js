@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import postsRed from "reducers/postsReducer"
-import categoryRed from "reducers/categoryReducer"
+import posts from "reducers/postsReducer"
+import category from "reducers/categoryReducer"
 
 export default combineReducers({
-  categoryRed,
-  postsRed,
+  category,
+  posts,
 })
