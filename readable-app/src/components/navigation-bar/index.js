@@ -4,8 +4,16 @@ import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import logo from 'img/logo.svg';
 
 import { LinkContainer } from 'react-router-bootstrap'
+import { connect } from 'react-redux'
+
+import * as categoryActions from 'actions/categoryActions'
 
 class NavigationBar extends Component {
+
+  componentDidMount = function () {
+    this.props.fetchCategories();
+  }
+
   render() {
     return (
       <div>
@@ -18,21 +26,51 @@ class NavigationBar extends Component {
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
+          <Navbar.Text>
+            Categories:
+          </Navbar.Text>
             <Nav>
-              <LinkContainer eventKey="404" to="/404">
-                <NavItem>
-                  404
-                </NavItem>
-              </LinkContainer>
-              <LinkContainer eventKey="aöfdklja" to="/aöfdklja">
-                <NavItem>
-                  aöfdklja
-              </NavItem>
-              </LinkContainer>
-              <LinkContainer eventKey="Categories" to="/Categories">
-                <NavItem>
-                  Category
-              </NavItem>
+              {/* {
+                this.props.category.count > 5 ? (
+                  <NavDropdown eventKey="Categories" title="Categories" id="basic-nav-dropdown">
+                    {
+                      this.props.category.map((categoryObj) => (
+                      <LinkContainer eventKey={`/Categories${categoryObj.path}`} to={`/Categories/${categoryObj.path}`}>
+                        <MenuItem eventKey={categoryObj.name}>{categoryObj.name}</MenuItem>
+                      </LinkContainer>
+                    ))}
+                    < MenuItem eventKey="divider" divider />
+                    <LinkContainer eventKey="Categories" to="/AllCategories">
+                      <MenuItem eventKey={3.4}>ALL</MenuItem>
+                    </LinkContainer>
+                  </NavDropdown>
+                )
+                : (
+                  this.props.category.map((categoryObj) => (
+                    categoryObj ?
+                    <LinkContainer eventKey={`/Categories${categoryObj.path}`} to={`/Categories/${categoryObj.path}`}>
+                      <NavItem key={categoryObj.name} eventKey={categoryObj.name}>{categoryObj.name}</NavItem>
+                    </LinkContainer>
+                    :
+                    <div></div>
+                  ))
+                  <LinkContainer eventKey="Categories" to="/AllCategories">
+                    <NavItem eventKey={3.4}>ALL</NavItem>
+                  </LinkContainer>
+                )
+              } */}
+              {
+                this.props.category.map((categoryObj) => (
+                  categoryObj ?
+                    <LinkContainer key={categoryObj.name} to={`/Categories/${categoryObj.path}`}>
+                      <NavItem key={categoryObj.name}>{categoryObj.name}</NavItem>
+                    </LinkContainer>
+                    :
+                    <div></div>
+                ))
+              }
+              <LinkContainer key="allCats" to="/AllCategories">
+                <NavItem key="allCats">ALL</NavItem>
               </LinkContainer>
             </Nav>
           </Navbar.Collapse>
@@ -42,4 +80,18 @@ class NavigationBar extends Component {
   }
 }
 
-export default NavigationBar;
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchCategories: (data) => categoryActions.fetchCategoriesAjax().subscribe(function (data) {
+      dispatch(categoryActions.fetchCategoriesFromService(data))
+    })
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    ...state
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);

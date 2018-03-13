@@ -8,25 +8,17 @@ class CategoryOverView extends Component {
 
   }
 
-  componentDidMount = function(){
-    this.props.fetchCategories();
-  }
-
   render() {
+    console.log(this.props)
     return (
       <div>
-        {}
+        <ol key="old">
+        {this.props.category.map((cat) => (
+          <li key={cat.name}>{cat.name}</li>
+        ))}
+        </ol>
       </div>
     )
-  }
-}
-
-function mapDispatchToProps(dispatch){
-  return {
-    fetchCategories: (data) => categoryActions.fetchCategoriesAjax().subscribe(function(data){
-      console.log("fetchCategory", data)
-      dispatch(categoryActions.fetchCategoriesFromService(data))
-    })
   }
 }
 
@@ -36,4 +28,4 @@ function mapStateToProps(state){
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps )(CategoryOverView)
+export default connect(mapStateToProps)(CategoryOverView)

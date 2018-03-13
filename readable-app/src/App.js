@@ -39,7 +39,12 @@ class App extends React.Component {
               <NotFound />
             )} />
             <Route
-            path='/Categories'
+            exact path='/AllCategories'
+            render={(props) => (
+              <CategoryOverview />
+            )} />
+            <Route
+            path='/Categories/'
             render={(props) => (
               <CategoryOverview />
             )} />
