@@ -57,7 +57,7 @@ class NavigationBar extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     fetchCategories: (data) => categoryDs.fetchCategories().subscribe(function (data) {
-      dispatch(categoryActions.fetchCategoriesFromService(data))
+      dispatch(categoryActions.fetchCategoriesFromService(data));
     }),
   }
 }

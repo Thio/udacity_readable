@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import * as categoryActions from 'actions/categoryActions'
 import { connect } from 'react-redux'
+
+import * as postsActions from 'actions/postsActions'
+import * as postsDs from 'dataServices/postsDs'
 
 class CategoryOverView extends Component {
   static propTypes = {
@@ -10,29 +12,45 @@ class CategoryOverView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      date: new Date()
-    };
+  }
+
+  componentDidMount = function () {
+    this.props.fetchAllPosts;
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
-        <ol key="old">
-        {this.props.category.map((cat) => (
-          <li key={cat.name}>{cat.name}</li>
-        ))}
-        </ol>
+        {
+          this.props.categories.map((category)=>(
+            <ol key={category.name}>
+              <li key={category.name}>{category.name}</li>
+              {category.posts.map((post) => (
+                <li key={post.id}>{post.author}</li>
+              ))}
+            </ol>
+          ))
+        }
       </div>
     )
   }
 }
 
-function mapStateToProps(state){
+function mapDispatchToProps(dispatch) {
   return {
-    ...state
+    fetchAllPosts: postsDs.fetchAllPosts().subscribe(function (data) {
+      dispatch(postsActions.fetchAllPostsFromService(data));
+    }),
   }
 }
 
-export default connect(mapStateToProps)(CategoryOverView)
+function mapStateToProps(state) {
+  return {
+    categories: state.category.map((category) => ({
+      name: category.name,
+      posts: state.posts.filter((post) => post.category === category.name)
+    }))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryOverView)
