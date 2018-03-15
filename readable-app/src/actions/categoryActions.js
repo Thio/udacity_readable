@@ -1,5 +1,3 @@
-import Rx from 'rxjs/Rx';
-
 export const actionDefinition = {
   fetchCategory: "FETCH_CATEGORY_FULFILLED"
 }
@@ -31,17 +29,4 @@ export function fetchCategoriesFromService(data){
       type: actionDefinition.fetchCategory,
       payload:data
     };
-}
-
-export function fetchCategoriesAjax(){
-  const a = Rx.Observable
-      .ajax({
-        url: 'http://localhost:3001/categories',
-        method: 'GET',
-        headers: {
-          'Authorization': 'whatever-you-want'
-        }
-      }).map(e => e.response);
-
-  return a;
 }

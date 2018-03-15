@@ -8,6 +8,13 @@ class CategoryOverView extends Component {
 
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date()
+    };
+  }
+
   render() {
     console.log(this.props)
     return (

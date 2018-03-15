@@ -21,7 +21,7 @@ export default function postsReducer(state = initialPostsReducerState, action){
   switch(action.type){
     // TODO add reducers
     case actionDefinition.fetchAllPosts:
-      return [...action.payload.categories]
+      return [...action.payload]
       break;
     default:
       return state;

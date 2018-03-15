@@ -1,11 +1,12 @@
 // Libary Imports
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react'
+import PropTypes from 'prop-types'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
 
 // CSS Imports
-import 'css/App.css';
-import 'css/bootstrap.min.css';
+import 'css/App.css'
+import 'css/bootstrap.min.css'
+import 'css/animate.css'
 
 // Component Imports
 import NotFound from 'components/NotFound'
