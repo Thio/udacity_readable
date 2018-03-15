@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import * as postsActions from 'actions/postsActions'
 import * as postsDs from 'dataServices/postsDs'
+import SingleCategoryDisplay from 'components/SingleCategoryDisplay'
 
 class CategoryOverView extends Component {
   static propTypes = {
@@ -23,12 +24,7 @@ class CategoryOverView extends Component {
       <div>
         {
           this.props.categories.map((category)=>(
-            <ol key={category.name}>
-              <li key={category.name}>{category.name}</li>
-              {category.posts.map((post) => (
-                <li key={post.id}>{post.author}</li>
-              ))}
-            </ol>
+            <SingleCategoryDisplay key={category.name} category={category.name}/>
           ))
         }
       </div>

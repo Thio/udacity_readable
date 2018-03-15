@@ -1,7 +1,7 @@
 import Rx from 'rxjs/Rx'
-import {voteTypes} from 'components/constValues'
+import {voteTypes, errorString} from 'components/constValues'
 
-export function fetchCommentsByPostId(postId){
+export function fetchCommentByPostId(postId){
   const a = Rx.Observable
       .ajax({
         url: `http://localhost:3001/posts/${postId}/comments`,

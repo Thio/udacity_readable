@@ -6,9 +6,12 @@ import logo from 'img/logo.svg';
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
 
+
 import * as categoryActions from 'actions/categoryActions'
 import * as categoryDs from 'dataServices/categoryDs'
 import * as _ from 'lodash'
+
+
 
 class NavigationBar extends Component {
 
