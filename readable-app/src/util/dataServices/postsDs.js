@@ -1,6 +1,6 @@
 import Rx from 'rxjs/Rx'
 import * as _ from 'lodash'
-import {voteTypes, errorString} from 'components/constValues'
+import {voteTypes, errorString} from 'util/constValues'
 
 const AddPostsObjectKeys = ['id', 'timestamp', 'title', 'body', 'author', 'category'];
 

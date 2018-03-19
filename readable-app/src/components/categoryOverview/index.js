@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import * as postsActions from 'actions/postsActions'
-import * as postsDs from 'dataServices/postsDs'
+import * as postsDs from 'util/dataServices/postsDs'
 import SingleCategoryDisplay from 'components/SingleCategoryDisplay'
+import "components/categoryOverview/categoryOverview.css";
 
 class CategoryOverView extends Component {
   static propTypes = {
@@ -21,7 +22,7 @@ class CategoryOverView extends Component {
 
   render() {
     return (
-      <div>
+      <div className="categoryDisplay">
         {
           this.props.categories.map((category)=>(
             <SingleCategoryDisplay key={category.name} category={category.name}/>

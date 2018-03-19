@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 
 import * as categoryActions from 'actions/categoryActions'
-import * as categoryDs from 'dataServices/categoryDs'
+import * as categoryDs from 'util/dataServices/categoryDs'
 import * as _ from 'lodash'
 
 
@@ -60,7 +60,9 @@ class NavigationBar extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     fetchCategories: (data) => categoryDs.fetchCategories().subscribe(function (data) {
-      dispatch(categoryActions.fetchCategoriesFromService(data));
+      if(data){
+        dispatch(categoryActions.fetchCategoriesFromService(data));
+      }
     }),
   }
 }

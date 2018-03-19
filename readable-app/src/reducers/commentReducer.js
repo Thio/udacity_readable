@@ -23,6 +23,12 @@ export default function commentReducer(state = initialCommentReducerState, actio
     case actionDefinition.fetchCommentsByPostId:
       return [...action.payload]
       break;
+    case actionDefinition.fetchCommentsById:
+      return [
+        ...state.filter((data => data.id !== action.payload.id)),
+        action.payload
+      ]
+      break;
     default:
       return state;
       break;
