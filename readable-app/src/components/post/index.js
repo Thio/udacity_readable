@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux"
 import * as _ from "lodash"
 
-import { Form, FormGroup, FormControl, FieldGroup, Checkbox, Radio, ControlLabel, Grid, Row, Col, Button, Glyphicon, Badge } from "react-bootstrap/lib"
+import { Form, FormGroup, FormControl, InputGroup, Grid, Row, Col, Button, Glyphicon, Badge } from "react-bootstrap/lib"
 
 import * as postsActions from "actions/postsActions"
 import * as postsDs from "util/dataServices/postsDs"
@@ -11,24 +11,18 @@ import * as commentActions from "actions/commentActions"
 import * as commentDs from "util/dataServices/commentDs"
 
 import CommentOverview from "components/commentOverview"
+import ControlButtonPostComment from "components/controlButtonPostComment"
 
 
 class Post extends Component {
   static propTypes = {}
 
   constructor(props, context) {
-    super(props, context);
-
-    this.handleClick = this.handleClick.bind(this);
-
-    this.state = {
-      editMode: false,
-    }
+    super(props, context)
   }
 
-  handleClick() {
-    console.log(this.props.post[0].id, this.state.editMode, this.state.editMode === true)
-    this.state.editMode = !this.state.editMode;
+  addComment(){
+    // TODO Change view to add comment
   }
 
   componentWillMount() {
@@ -43,68 +37,65 @@ class Post extends Component {
       <div>
         <Grid>
           <Row>
-            {
-              post ?
-                <Col md={8}>
+            <Col md={8}>
+              {post ?
+                <Row>
                   <Row>
+                    <Form>
+                      <FormGroup bsSize="small">
+                        <InputGroup>
+                          <InputGroup.Addon>Title</InputGroup.Addon>
+                          <FormControl type="text" value={post.title} disabled />
+                        </InputGroup>
+                        <InputGroup>
+                          <InputGroup.Addon>Author</InputGroup.Addon>
+                          <FormControl type="text" value={post.author} disabled />
+                        </InputGroup>
+                        <InputGroup>
+                          <InputGroup.Addon>Date</InputGroup.Addon>
+                          <FormControl type="text" value={new Date(post.timestamp).toLocaleDateString()} disabled />
+                        </InputGroup>
+                        <InputGroup>
+                          <InputGroup.Addon>Text</InputGroup.Addon>
+                          <FormControl type="text" value={post.body} disabled />
+                        </InputGroup>
+                      </FormGroup>
+                    </Form>
                   </Row>
                   <Row>
-                    <Col md={2}>
-                      Title:
-                    </Col>
-                    <Col md={7}>
-                      {post.title}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md={2}>
-                      Author:
-                    </Col>
-                    <Col md={7}>
-                      {post.author}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md={2}>
-                      Timestamp:
-                    </Col>
-                    <Col md={7}>
-                      {new Date(post.timestamp).toLocaleDateString()}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md={1}>
-                      Text:
-                    </Col>
-                    <Col md={7}>
-                      {post.body}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md={12}>
+                    <Col md={8}>
                       {
-                        this.props.comments.length > 0 ?
-                          <div>
-                            <p>Comments</p>
-                            {
-                              <CommentOverview postId={post.id} />
-                            }
-                          </div> : <div />
+                        <Row>
+                          {
+                            this.props.comments.length > 0 ?
+                              <Row>
+                                <Row>
+                                  <Col md={8}>
+                                    <h2>Comments</h2>
+                                  </Col>
+                                  <Col mdOffset={1} md={3}>
+                                    <Button bsStyle="success" onClick={this.AddComment}><Glyphicon glyph="glyphicon glyphicon-plus" /></Button>
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  {
+                                    <CommentOverview postId={post.id} />
+                                  }
+                                </Row>
+                              </Row>
+                              : <Row />
+                          }
+                        </Row>
                       }
                     </Col>
                   </Row>
-                </Col>
-                : <Col />
-            }
+                </Row>
+                : <Row />
+              }
+            </Col>
             <Col mdOffset={1} md={3}>
               <Row>
-                <Button bsStyle="success"><Glyphicon glyph="glyphicon glyphicon-menu-up" /></Button>
-                <Button disabled>{post.voteScore}</Button>
-                <Button bsStyle="danger"><Glyphicon glyph="glyphicon glyphicon-menu-down" /></Button>
-                {this.state.editMode  === true ?
-                <Button bsStyle="info" onClick={this.handleClick}><Glyphicon glyph="glyphicon glyphicon-floppy-saved" /></Button>
-                : <Button bsStyle="info" onClick={this.handleClick}><Glyphicon glyph="glyphicon glyphicon-pencil" /></Button>}
-                <Button bsStyle="info"><Glyphicon glyph="glyphicon glyphicon-align-justify" /></Button>
+                <ControlButtonPostComment id={post.id} />
               </Row>
             </Col>
           </Row>
@@ -121,6 +112,7 @@ function mapDispatchToProps(dispatch) {
         dispatch(commentActions.fetchCommentByPostId(data));
       }
     }),
+    toggleEditModeOnPost: (postId) => dispatch(postsActions.toggleEditModeOnPost(postId))
   }
 }
 

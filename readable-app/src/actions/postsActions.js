@@ -1,6 +1,8 @@
 export const actionDefinition = {
   fetchAllPosts: "FETCH_ALLPOSTS_FULFILLED",
-  fetchPostsForCategory: "FETCH_POSTSFORCATEGORY_FULFILLED"
+  fetchPostsForCategory: "FETCH_POSTSFORCATEGORY_FULFILLED",
+  voteOnPost: "VOTE_ON_POST",
+
 }
 
 export function fetchAllPostsMock(){
@@ -16,4 +18,19 @@ export function fetchAllPostsFromService(data){
       type: actionDefinition.fetchAllPosts,
       payload:data
     };
+}
+
+
+export function toggleEditModeOnPost(postId){
+  return {
+    type: actionDefinition.toggleEditModeOnPost,
+    payload: postId
+  };
+}
+
+export function voteOnPost(postIdAndVoteScore){
+  return {
+    type: actionDefinition.voteOnPost,
+    payload: postIdAndVoteScore
+  }
 }

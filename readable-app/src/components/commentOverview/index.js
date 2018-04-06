@@ -17,22 +17,23 @@ class commentOverview extends Component {
   };
 
   componentWillMount() {
-    if(this.props.comments.length <= 0){
+    if (this.props.comments.length <= 0 && this.props.post) {
       this.props.fetchCommentByPostId(this.props.post[0].id);
     }
   }
 
   render() {
+    const comments = this.props.comments;
     return (
-        <Grid>
-          <Row className="show-grid" >
+      <Grid>
+        <Row className="show-grid" >
             {
-              this.props.comments.map((comment) => (
+              comments.map((comment) => (
                 <Comment key={comment.id} id={comment.id} />
               ))
             }
-          </Row>
-        </Grid>
+        </Row>
+      </Grid>
     );
   }
 }

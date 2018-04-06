@@ -17,14 +17,34 @@ const initialPostsReducerState = []
 
 */
 
-export default function postsReducer(state = initialPostsReducerState, action){
-  switch(action.type){
+export default function postsReducer(state = initialPostsReducerState, action) {
+  switch (action.type) {
     // TODO add reducers
     case actionDefinition.fetchAllPosts:
-      return [...action.payload]
+      return action.payload.map(post => extendPayloadOfProperties(post));
+      break;
+    case actionDefinition.toggleEditModeOnPost:
+      return state.map(post => {
+        if (post.id === action.payload) {
+          post.editMode = !post.editMode;
+        }
+        return post;
+      })
+      break;
+    case actionDefinition.voteOnPost:
+      return state.map(post => {
+        if (post.id === action.payload.id) {
+          post.voteScore = post.voteScore + action.payload.voteScore
+        }
+        return post
+      })
       break;
     default:
       return state;
       break;
   }
+}
+
+function extendPayloadOfProperties(obj) {
+  return Object.assign(obj, { "editMode": false })
 }

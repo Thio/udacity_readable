@@ -59,7 +59,7 @@ export function voteOnComment(id, voteType) {
       body: {
         option: voteType
       }
-    }).map(e => e.response)
+    }).debounce(5000).map(e => e.response)
   return a;
 }
 

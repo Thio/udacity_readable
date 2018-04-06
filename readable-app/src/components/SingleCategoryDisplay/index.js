@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as _ from "lodash";
 
-import { Grid, Row, Col } from "react-bootstrap/lib";
+import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap/lib";
 
 
 import * as postsActions from "actions/postsActions";
@@ -18,16 +18,23 @@ class singleCategoryDisplay extends Component {
 
   render() {
     return (
-        <Grid>
-            <Row>
-              <h2 key={this.props.category}>{this.props.category}</h2>
-              {
-                this.props.posts.map((post) => (
-                  <Post key={post.id} postId={post.id} />
-                ))
-              }
-            </Row>
-        </Grid>
+      <Grid>
+        <Row>
+          <Col md={2}>
+            <h2 key={this.props.category}>{this.props.category}</h2>
+          </Col>
+          <Col md={1}>
+            <Button bsStyle="success" onClick={this.AddComment}><Glyphicon glyph="glyphicon glyphicon-plus" /></Button>
+          </Col>
+        </Row>
+        <Row>
+          {
+            this.props.posts.map((post) => (
+              <Post key={post.id} postId={post.id} />
+            ))
+          }
+        </Row>
+      </Grid>
     );
   }
 }

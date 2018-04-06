@@ -16,7 +16,9 @@ import * as _ from 'lodash'
 class NavigationBar extends Component {
 
   componentDidMount = function () {
-    this.props.fetchCategories();
+    if(this.props.category.length <= 0){
+      this.props.fetchCategories();
+    }
   }
 
   render() {
