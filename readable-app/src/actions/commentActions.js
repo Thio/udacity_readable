@@ -1,32 +1,32 @@
 export const actionDefinition = {
   fetchCommentsByPostId: "FETCH_FETCHCOMMENTBYPOSTID_FULFILLED",
   fetchCommentsByID: "FETCH_FETCHCOMMENTBYPOSTID_FULFILLED",
-  voteOnComment: "VOTE_ON_COMMENT",
+  voteOnComment: "VOTE_ON_COMMENT"
 
 }
 
-export function fetchCommentByPostId(data){
-     return {
-      type: actionDefinition.fetchCommentsByPostId,
-      payload:data
-    };
+export function fetchCommentByPostId(data) {
+  return {
+    type: actionDefinition.fetchCommentsByPostId,
+    payload: data
+  }
 }
 
-export function fetchCommentById(data){
+export function fetchCommentById(data) {
   return {
     type: actionDefinition.fetchCommentsByID,
-    payload:data
-  };
+    payload: data
+  }
 }
 
-export function toggleEditModeOnComment(commentId){
+export function toggleEditModeOnComment(commentId) {
   return {
     type: actionDefinition.toggleEditModeOnComment,
-    payload:commentId
-  };
+    payload: commentId
+  }
 }
 
-export function voteOnComment(commentIdAndVoteScore){
+export function voteOnComment(commentIdAndVoteScore) {
   return {
     type: actionDefinition.voteOnComment,
     payload: commentIdAndVoteScore

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-eslint": "^8.2.2",
     "eslint": "^4.19.0",
     "history": "^4.7.2",
     "jshint": "^2.9.5",

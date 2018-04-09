@@ -1,7 +1,7 @@
 // Libary Imports
 import * as React from 'react'
-import PropTypes from 'prop-types'
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
+
+import { Route, Redirect, Switch } from 'react-router-dom'
 
 // CSS Imports
 import 'css/App.css'
@@ -13,8 +13,6 @@ import NotFound from 'components/NotFound'
 import FirstGlance from 'components/firstGlance'
 import CategoryOverview from 'components/categoryOverview'
 import NavigationBar from 'components/navigation-bar'
-import Header from 'components/header'
-
 
 class App extends React.Component {
 
@@ -30,23 +28,23 @@ class App extends React.Component {
         <Switch>
           <Route
             exact path='/'
-            render={(props) => (
+            render={() => (
               <FirstGlance />
             )}
           />
           <Route
             path='/404'
-            render={(props) => (
+            render={() => (
               <NotFound />
             )} />
             <Route
             exact path='/AllCategories'
-            render={(props) => (
+            render={() => (
               <CategoryOverview />
             )} />
             <Route
             path='/Categories/'
-            render={(props) => (
+            render={() => (
               <CategoryOverview />
             )} />
           <Redirect from='*' to='/404' />
@@ -55,8 +53,8 @@ class App extends React.Component {
         {/* Footer */}
 
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

@@ -2,7 +2,7 @@ export const actionDefinition = {
   fetchCategory: "FETCH_CATEGORY_FULFILLED"
 }
 
-export function fetchCategoryMock(){
+export function fetchCategoryMock() {
   return {
     type: actionDefinition.fetchCategory,
     payload: {
@@ -24,9 +24,9 @@ export function fetchCategoryMock(){
   }
 }
 
-export function fetchCategoriesFromService(data){
-     return {
-      type: actionDefinition.fetchCategory,
-      payload:data
-    };
+export function fetchCategoriesFromService(data) {
+  return {
+    type: actionDefinition.fetchCategory,
+    payload: data
+  }
 }

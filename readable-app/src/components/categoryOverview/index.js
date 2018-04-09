@@ -9,22 +9,23 @@ import "components/categoryOverview/categoryOverview.css";
 
 class CategoryOverView extends Component {
   static propTypes = {
-
+    fetchAllPosts: PropTypes.func,
+    categories: PropTypes.array
   }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount = function () {
-    this.props.fetchAllPosts;
+    this.props.fetchAllPosts
   }
 
   render() {
     return (
       <div className="categoryDisplay">
         {
-          this.props.categories.map((category)=>(
+          this.props.categories.map((category) => (
             <SingleCategoryDisplay key={category.name} category={category.name}/>
           ))
         }
@@ -36,8 +37,8 @@ class CategoryOverView extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     fetchAllPosts: postsDs.fetchAllPosts().subscribe(function (data) {
-      dispatch(postsActions.fetchAllPostsFromService(data));
-    }),
+      dispatch(postsActions.fetchAllPostsFromService(data))
+    })
   }
 }
 
