@@ -22,7 +22,7 @@ export default function postsReducer(state = initialPostsReducerState, action) {
     // TODO add reducers
     case actionDefinition.fetchAllPosts:
       return action.payload.map(post => extendPayloadOfProperties(post))
-    case actionDefinition.toggleEditModeOnPost:
+    case actionDefinition.toggleEditMode:
       return state.map(post => {
         if (post.id === action.payload) {
           post.editMode = !post.editMode

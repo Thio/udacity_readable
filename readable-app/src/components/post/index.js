@@ -4,7 +4,6 @@ import { connect } from "react-redux"
 
 import { Form, FormGroup, FormControl, InputGroup, Grid, Row, Col, Button, Glyphicon } from "react-bootstrap/lib"
 
-import * as postsActions from "actions/postsActions"
 import * as commentActions from "actions/commentActions"
 import * as commentDs from "util/dataServices/commentDs"
 
@@ -16,10 +15,6 @@ class Post extends Component {
     post: PropTypes.array,
     fetchCommentByPostId: PropTypes.func,
     comments: PropTypes.array
-  }
-
-  addComment() {
-    // TODO Change view to add comment
   }
 
   componentWillMount() {
@@ -42,19 +37,30 @@ class Post extends Component {
                       <FormGroup bsSize="small">
                         <InputGroup>
                           <InputGroup.Addon>Title</InputGroup.Addon>
-                          <FormControl type="text" value={post.title} disabled />
+                          {
+                            post.editMode ? <FormControl type="text" value={post.title} />
+                              : <FormControl type="text" value={post.title} readOnly />
+                          }
                         </InputGroup>
                         <InputGroup>
                           <InputGroup.Addon>Author</InputGroup.Addon>
-                          <FormControl type="text" value={post.author} disabled />
+                          {
+                            post.editMode ? <FormControl type="text" value={post.author} />
+                              : <FormControl type="text" value={post.author} readOnly />
+                          }
                         </InputGroup>
                         <InputGroup>
                           <InputGroup.Addon>Date</InputGroup.Addon>
-                          <FormControl type="text" value={new Date(post.timestamp).toLocaleDateString()} disabled />
+                          {
+                            post.editMode ? <FormControl type="text" value={new Date(post.timestamp).toLocaleDateString()} />
+                              : <FormControl type="text" value={new Date(post.timestamp).toLocaleDateString()} readOnly />}
                         </InputGroup>
                         <InputGroup>
                           <InputGroup.Addon>Text</InputGroup.Addon>
-                          <FormControl type="text" value={post.body} disabled />
+                          {
+                            post.editMode ? <FormControl type="text" value={post.body} />
+                              : <FormControl type="text" value={post.body} readOnly />
+                          }
                         </InputGroup>
                       </FormGroup>
                     </Form>
@@ -110,8 +116,7 @@ function mapDispatchToProps(dispatch) {
       if (data) {
         dispatch(commentActions.fetchCommentByPostId(data))
       }
-    }),
-    toggleEditModeOnPost: postId => dispatch(postsActions.toggleEditModeOnPost(postId))
+    })
   }
 }
 

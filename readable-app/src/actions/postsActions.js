@@ -1,7 +1,8 @@
 export const actionDefinition = {
   fetchAllPosts: "FETCH_ALLPOSTS_FULFILLED",
   fetchPostsForCategory: "FETCH_POSTSFORCATEGORY_FULFILLED",
-  voteOnPost: "VOTE_ON_POST"
+  voteOnPost: "VOTE_ON_POST",
+  toggleEditMode: "TOGGLE_EDIT_MODE"
 
 }
 
@@ -22,7 +23,7 @@ export function fetchAllPostsFromService(data) {
 
 export function toggleEditModeOnPost(postId) {
   return {
-    type: actionDefinition.toggleEditModeOnPost,
+    type: actionDefinition.toggleEditMode,
     payload: postId
   }
 }

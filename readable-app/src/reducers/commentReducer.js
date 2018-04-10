@@ -26,7 +26,7 @@ export default function commentReducer(state = initialCommentReducerState, actio
         ...state.filter((data => data.id !== action.payload.id)),
         extendPayloadOfProperties(action.payload)
       ]
-    case actionDefinition.toggleEditModeOnComment:
+    case actionDefinition.toggleEditMode:
       return state.map(comment => {
         if (comment.id === action.payload) {
           comment.editMode = !comment.editMode
@@ -37,6 +37,14 @@ export default function commentReducer(state = initialCommentReducerState, actio
       return state.map(comment => {
         if (comment.id === action.payload.id) {
           comment.voteScore = comment.voteScore + action.payload.voteScore
+        }
+        return comment
+      })
+    case actionDefinition.editMode:
+      return state.map(comment => {
+        if (comment.id === action.payload.id) {
+          comment.timestamp = new Date(),
+          comment.body = action.payload.body
         }
         return comment
       })

@@ -13,32 +13,30 @@ class SingleComment extends Component {
 
   constructor(props, context) {
     super(props, context)
-
     this.allowedKeys = ["date", "author", "body", "timestamp"]
-  }
-
-  componentWillMount() {
-
   }
 
   render() {
     const comment = this.props.comment[0]
-
     return (
       <Grid>
         <Row>
           <Col md={8}>
             <FormGroup bsSize="small">
               {
-                Object.keys(comment).filter(key => this.allowedKeys.indexOf(key) < -1).map(key => (
+                Object.keys(comment).filter(key => this.allowedKeys.indexOf(key) > -1).map(key => (
                   key === 'timestamp' ?
                     <InputGroup key={`${comment.id}_${key}`} >
                       <InputGroup.Addon>Date</InputGroup.Addon>
-                      <FormControl type="text" value={new Date(comment.timestamp).toLocaleDateString()} disabled />
+                      <FormControl type="text" defaultValue={new Date(comment.timestamp).toLocaleDateString()} readOnly />
                     </InputGroup>
                     : <InputGroup key={`${comment.id}_${key}`}>
                       <InputGroup.Addon>{key}</InputGroup.Addon>
-                      <FormControl type="text" value={comment[key]} disabled />
+                      {
+                        comment.editMode ?
+                          <FormControl type="text" defaultValue={comment[key]} />
+                          : <FormControl type="text" defaultValue={comment[key]} readOnly />
+                      }
                     </InputGroup>
                 ))
               }
@@ -62,9 +60,8 @@ function mapDispatchToProps() {
 }
 
 function mapStateToProps(state, ownProps) {
-
   return {
-    comment: state.comment.filter((comment) => comment.id === ownProps.id)
+    comment: state.comment.filter(comment => comment.id === ownProps.id)
   }
 }
 

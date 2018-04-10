@@ -1,5 +1,4 @@
 import Rx from 'rxjs/Rx'
-import { voteTypes, errorString } from 'util/constValues'
 
 export function fetchCommentByPostId(postId) {
   const a = Rx.Observable.ajax({
@@ -42,10 +41,6 @@ export function addComment(postId, id, timestamp, body, author) {
 }
 
 export function voteOnComment(id, voteType) {
-  if (voteTypes.findKey(voteType)) {
-    return Rx.Observable.throw(errorString.voteTypeNotAvailable)
-  }
-
   const a = Rx.Observable.ajax({
     url: `http://localhost:3001/comments/${id}`,
     method: 'POST',
@@ -55,7 +50,7 @@ export function voteOnComment(id, voteType) {
     body: {
       option: voteType
     }
-  }).debounce(5000).map(e => e.response)
+  }).map(e => e.response)
   return a
 }
 

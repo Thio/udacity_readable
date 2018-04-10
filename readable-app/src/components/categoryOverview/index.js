@@ -9,12 +9,12 @@ import "components/categoryOverview/categoryOverview.css"
 
 class CategoryOverView extends Component {
   static propTypes = {
-    fetchAllPosts: PropTypes.object,
+    fetchAllPosts: PropTypes.func,
     categories: PropTypes.array
   }
 
   componentDidMount = function () {
-    this.props.fetchAllPosts
+    this.props.fetchAllPosts()
   }
 
   render() {
@@ -32,7 +32,7 @@ class CategoryOverView extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAllPosts: postsDs.fetchAllPosts().subscribe(function (data) {
+    fetchAllPosts: () => postsDs.fetchAllPosts().subscribe(function (data) {
       dispatch(postsActions.fetchAllPostsFromService(data))
     })
   }

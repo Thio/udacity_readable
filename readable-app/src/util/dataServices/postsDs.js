@@ -1,6 +1,6 @@
 import Rx from 'rxjs/Rx'
 import * as _ from 'lodash'
-import { voteTypes, errorString } from 'util/constValues'
+import { errorString } from 'util/constValues'
 
 const AddPostsObjectKeys = ['id', 'timestamp', 'title', 'body', 'author', 'category']
 
@@ -55,10 +55,6 @@ export function fetchPostById(id) {
 }
 
 export function voteOnPost(id, voteType) {
-  if (voteTypes.findKey(voteType)) {
-    return Rx.Observable.throw(errorString.voteTypeNotAvailable)
-  }
-
   const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'POST',
