@@ -9,12 +9,12 @@ import ControlButtonPostComment from "components/controlButtonPostComment"
 class SingleComment extends Component {
   static propTypes = {
     comment: PropTypes.array
-  };
+  }
 
   constructor(props, context) {
     super(props, context)
 
-    this.allowedKeys = [ "date", "author", "body", "timestamp" ]
+    this.allowedKeys = ["date", "author", "body", "timestamp"]
   }
 
   componentWillMount() {
@@ -30,32 +30,32 @@ class SingleComment extends Component {
           <Col md={8}>
             <FormGroup bsSize="small">
               {
-                Object.keys(comment).filter((key) => -1 > this.allowedKeys.indexOf(key) ).map((key) => (
-                key === 'timestamp' ?
-                  <InputGroup key={`${comment.id}_${key}`} >
-                    <InputGroup.Addon>Date</InputGroup.Addon>
-                    <FormControl  type="text" value={new Date(comment.timestamp).toLocaleDateString()} disabled />
-                  </InputGroup>
-                  : <InputGroup key={`${comment.id}_${key}`}>
-                    <InputGroup.Addon>{key}</InputGroup.Addon>
-                    <FormControl type="text" value={comment[key]} disabled />
-                  </InputGroup>
-              ))
-          }
-          </FormGroup>
+                Object.keys(comment).filter(key => this.allowedKeys.indexOf(key) < -1).map(key => (
+                  key === 'timestamp' ?
+                    <InputGroup key={`${comment.id}_${key}`} >
+                      <InputGroup.Addon>Date</InputGroup.Addon>
+                      <FormControl type="text" value={new Date(comment.timestamp).toLocaleDateString()} disabled />
+                    </InputGroup>
+                    : <InputGroup key={`${comment.id}_${key}`}>
+                      <InputGroup.Addon>{key}</InputGroup.Addon>
+                      <FormControl type="text" value={comment[key]} disabled />
+                    </InputGroup>
+                ))
+              }
+            </FormGroup>
           </Col>
           <Col mdOffset={1} md={3}>
             <Row>
-            <ControlButtonPostComment id={comment.id} />
+              <ControlButtonPostComment id={comment.id} />
             </Row>
           </Col>
         </Row>
       </Grid>
-    );
+    )
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
   return {
 
   }
@@ -64,10 +64,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state, ownProps) {
 
   return {
-    comment: state.comment.filter(comment => comment.id === ownProps.id)
-  };
+    comment: state.comment.filter((comment) => comment.id === ownProps.id)
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SingleComment
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleComment)

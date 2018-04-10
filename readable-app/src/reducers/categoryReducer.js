@@ -18,14 +18,11 @@ const initialCategoryReducerState = []
 
 */
 
-export default function categoryReducer(state = initialCategoryReducerState, action){
-  switch(action.type){
-    // TODO add reducers
+export default function categoryReducer(state = initialCategoryReducerState, action) {
+  switch (action.type) {
     case actionDefinition.fetchCategory:
       return [...action.payload.categories]
-      break;
     default:
-      return state;
-      break;
+      return state
   }
 }

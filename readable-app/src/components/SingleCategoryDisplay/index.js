@@ -1,20 +1,18 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import * as _ from "lodash";
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
 
-import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap/lib";
-
-
-import * as postsActions from "actions/postsActions";
-import * as postsDs from "util/dataServices/postsDs";
+import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap/lib"
 
 import Post from 'components/post'
 
 class singleCategoryDisplay extends Component {
-  static propTypes = {};
+  static propTypes = {
+    category: PropTypes.string,
+    posts: PropTypes.array
+  }
 
-  state = {};
+  state = {}
 
   render() {
     return (
@@ -29,26 +27,26 @@ class singleCategoryDisplay extends Component {
         </Row>
         <Row>
           {
-            this.props.posts.map((post) => (
+            this.props.posts.map(post => (
               <Post key={post.id} postId={post.id} />
             ))
           }
         </Row>
       </Grid>
-    );
+    )
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {};
+function mapDispatchToProps() {
+  return {}
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     posts: state.posts.filter(post => post.category === ownProps.category)
-  };
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   singleCategoryDisplay
-);
+)

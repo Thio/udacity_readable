@@ -5,16 +5,12 @@ import { connect } from 'react-redux'
 import * as postsActions from 'actions/postsActions'
 import * as postsDs from 'util/dataServices/postsDs'
 import SingleCategoryDisplay from 'components/SingleCategoryDisplay'
-import "components/categoryOverview/categoryOverview.css";
+import "components/categoryOverview/categoryOverview.css"
 
 class CategoryOverView extends Component {
   static propTypes = {
-    fetchAllPosts: PropTypes.func,
+    fetchAllPosts: PropTypes.object,
     categories: PropTypes.array
-  }
-
-  constructor(props) {
-    super(props)
   }
 
   componentDidMount = function () {
@@ -25,7 +21,7 @@ class CategoryOverView extends Component {
     return (
       <div className="categoryDisplay">
         {
-          this.props.categories.map((category) => (
+          this.props.categories.map(category => (
             <SingleCategoryDisplay key={category.name} category={category.name}/>
           ))
         }
@@ -44,9 +40,9 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    categories: state.category.map((category) => ({
+    categories: state.category.map(category => ({
       name: category.name,
-      posts: state.posts.filter((post) => post.category === category.name)
+      posts: state.posts.filter(post => post.category === category.name)
     }))
   }
 }

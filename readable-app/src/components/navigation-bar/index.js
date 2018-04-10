@@ -1,28 +1,30 @@
-import React, { Component } from 'react';
-import { Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap/lib';
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
-import logo from 'img/logo.svg';
+import React, { Component } from 'react'
+import { Navbar, Nav, NavItem } from 'react-bootstrap/lib'
+import { Link } from 'react-router-dom'
+import logo from 'img/logo.svg'
+import PropTypes from "prop-types"
 
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
-
 
 import * as categoryActions from 'actions/categoryActions'
 import * as categoryDs from 'util/dataServices/categoryDs'
 import * as _ from 'lodash'
 
-
-
 class NavigationBar extends Component {
+  static propTypes = {
+    category: PropTypes.array,
+    fetchCategories: PropTypes.func
+  }
 
   componentDidMount = function () {
-    if(this.props.category.length <= 0){
-      this.props.fetchCategories();
+    if (this.props.category.length <= 0) {
+      this.props.fetchCategories()
     }
   }
 
   render() {
-    const allTranslation = 'all';
+    const allTranslation = 'all'
     return (
       <div>
         <Navbar collapseOnSelect>
@@ -39,7 +41,7 @@ class NavigationBar extends Component {
           </Navbar.Text>
             <Nav>
               {
-                this.props.category.map((categoryObj) => (
+                this.props.category.map(categoryObj => (
                   categoryObj ?
                     <LinkContainer key={categoryObj.name} to={`/Categories/${categoryObj.path}`}>
                       <NavItem key={categoryObj.name}>{_.capitalize(categoryObj.name)}</NavItem>
@@ -55,17 +57,17 @@ class NavigationBar extends Component {
           </Navbar.Collapse>
         </Navbar>
       </div>
-    );
+    )
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchCategories: (data) => categoryDs.fetchCategories().subscribe(function (data) {
-      if(data){
-        dispatch(categoryActions.fetchCategoriesFromService(data));
+    fetchCategories: () => categoryDs.fetchCategories().subscribe(function (data) {
+      if (data) {
+        dispatch(categoryActions.fetchCategoriesFromService(data))
       }
-    }),
+    })
   }
 }
 
@@ -75,4 +77,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar)

@@ -1,70 +1,65 @@
 import Rx from 'rxjs/Rx'
 import * as _ from 'lodash'
-import {voteTypes, errorString} from 'util/constValues'
+import { voteTypes, errorString } from 'util/constValues'
 
-const AddPostsObjectKeys = ['id', 'timestamp', 'title', 'body', 'author', 'category'];
+const AddPostsObjectKeys = ['id', 'timestamp', 'title', 'body', 'author', 'category']
 
-export function fetchAllPosts(){
-  const a = Rx.Observable
-      .ajax({
-        url: `http://localhost:3001/posts`,
-        method: 'GET',
-        headers: {
-          'Authorization': '1337'
-        }
-      }).map(e => e.response)
-  return a;
+export function fetchAllPosts() {
+  const a = Rx.Observable.ajax({
+    url: `http://localhost:3001/posts`,
+    method: 'GET',
+    headers: {
+      'Authorization': '1337'
+    }
+  }).map(e => e.response)
+  return a
 }
 
-export function fetchPostsByCategory(category){
-  const a = Rx.Observable
-      .ajax({
-        url: `http://localhost:3001/${category}/posts`,
-        method: 'GET',
-        headers: {
-          'Authorization': '1337'
-        }
-      }).map(e => e.response)
-  return a;
+export function fetchPostsByCategory(category) {
+  const a = Rx.Observable.ajax({
+    url: `http://localhost:3001/${category}/posts`,
+    method: 'GET',
+    headers: {
+      'Authorization': '1337'
+    }
+  }).map(e => e.response)
+  return a
 }
 
-export function addPost(post){
+export function addPost(post) {
 
-  if(checkObjectAgainstPropertyArray(post, AddPostsObjectKeys)){
-    return Rx.Observable.throw(errorString.wrongPropertiesString);
+  if (checkObjectAgainstPropertyArray(post, AddPostsObjectKeys)) {
+    return Rx.Observable.throw(errorString.wrongPropertiesString)
   }
 
-  const a = Rx.Observable
-      .ajax({
-        url: 'http://localhost:3001/posts',
-        method: 'POST',
-        headers: {
-          'Authorization': '1337'
-        },
-        body: post
-      }).map(e => e.response)
-  return a;
+  const a = Rx.Observable.ajax({
+    url: 'http://localhost:3001/posts',
+    method: 'POST',
+    headers: {
+      'Authorization': '1337'
+    },
+    body: post
+  }).map(e => e.response)
+  return a
 }
 
-export function fetchPostById(id){
-  const a = Rx.Observable
-  .ajax({
+export function fetchPostById(id) {
+  const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'GET',
     headers: {
       'Authorization': '1337'
     }
   }).map(e => e.response)
-  return a;
+  return a
 }
 
-export function voteOnPost(id, voteType){
-  if(voteTypes.findKey(voteType)){
-    return Rx.Observable.throw(errorString.voteTypeNotAvailable);
+export function voteOnPost(id, voteType) {
+  if (voteTypes.findKey(voteType)) {
+    return Rx.Observable.throw(errorString.voteTypeNotAvailable)
   }
 
-  const a = Rx.Observable
-  .ajax({
+  const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'POST',
     headers: {
@@ -74,12 +69,11 @@ export function voteOnPost(id, voteType){
       option: voteType
     }
   }).map(e => e.response)
-  return a;
+  return a
 }
 
-export function editPost(id, postTitle, postBody){
-  const a = Rx.Observable
-  .ajax({
+export function editPost(id, postTitle, postBody) {
+  const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'PUT',
     headers: {
@@ -90,28 +84,27 @@ export function editPost(id, postTitle, postBody){
       body: postBody
     }
   }).map(e => e.response)
-  return a;
+  return a
 }
 
-export function removePost(id){
-  const a = Rx.Observable
-  .ajax({
+export function removePost(id) {
+  const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'DELETE',
     headers: {
       'Authorization': '1337'
     }
   }).map(e => e.response)
-  return a;
+  return a
 }
 
-function checkObjectAgainstPropertyArray(object, properties){
-  const keys =  _.keys(object);
-  const postHasKorrektKeys = _.pullAll(keys, properties);
+function checkObjectAgainstPropertyArray(object, properties) {
+  const keys = _.keys(object)
+  const postHasKorrektKeys = _.pullAll(keys, properties)
 
-  if(postHasKorrektKeys.count > 0){
-    return false;
+  if (postHasKorrektKeys.count > 0) {
+    return false
   }
 
-  return false;
+  return false
 }

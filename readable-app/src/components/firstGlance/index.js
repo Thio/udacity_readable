@@ -1,12 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
+import React, { Component } from 'react'
 
 class FirstGlance extends Component {
-  static propTypes = {
-
-  }
-
   render() {
     return (
       <div >
@@ -14,8 +8,8 @@ class FirstGlance extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
       </div>
-    );
+    )
   }
 }
 
-export default FirstGlance;
+export default FirstGlance

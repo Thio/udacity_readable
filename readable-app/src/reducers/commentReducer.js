@@ -19,36 +19,29 @@ const initialCommentReducerState = []
 
 export default function commentReducer(state = initialCommentReducerState, action) {
   switch (action.type) {
-    // TODO add reducers
     case actionDefinition.fetchCommentsByPostId:
-      return action.payload.map(comment => extendPayloadOfProperties(comment));
-      break;
+      return action.payload.map(comment => extendPayloadOfProperties(comment))
     case actionDefinition.fetchCommentsById:
       return [
         ...state.filter((data => data.id !== action.payload.id)),
         extendPayloadOfProperties(action.payload)
       ]
-      break;
     case actionDefinition.toggleEditModeOnComment:
       return state.map(comment => {
         if (comment.id === action.payload) {
-          comment.editMode = !comment.editMode;
+          comment.editMode = !comment.editMode
         }
-        return comment;
+        return comment
       })
-      break;
     case actionDefinition.voteOnComment:
       return state.map(comment => {
         if (comment.id === action.payload.id) {
-          console.log(comment, action)
           comment.voteScore = comment.voteScore + action.payload.voteScore
         }
         return comment
       })
-      break;
     default:
-      return state;
-      break;
+      return state
   }
 }
 

@@ -21,16 +21,14 @@ export default function postsReducer(state = initialPostsReducerState, action) {
   switch (action.type) {
     // TODO add reducers
     case actionDefinition.fetchAllPosts:
-      return action.payload.map(post => extendPayloadOfProperties(post));
-      break;
+      return action.payload.map(post => extendPayloadOfProperties(post))
     case actionDefinition.toggleEditModeOnPost:
       return state.map(post => {
         if (post.id === action.payload) {
-          post.editMode = !post.editMode;
+          post.editMode = !post.editMode
         }
-        return post;
+        return post
       })
-      break;
     case actionDefinition.voteOnPost:
       return state.map(post => {
         if (post.id === action.payload.id) {
@@ -38,10 +36,8 @@ export default function postsReducer(state = initialPostsReducerState, action) {
         }
         return post
       })
-      break;
     default:
-      return state;
-      break;
+      return state
   }
 }
 

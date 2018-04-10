@@ -1,6 +1,6 @@
-import Rx from 'rxjs/Rx';
+import Rx from 'rxjs/Rx'
 
-export function fetchCategories(){
+export function fetchCategories() {
   const a = Rx.Observable
       .ajax({
         url: 'http://localhost:3001/categories',
@@ -8,8 +8,7 @@ export function fetchCategories(){
         headers: {
           'Authorization': 'whatever-you-want'
         }
-      }).map(e => e.response);
+      }).map(e => e.response)
 
-  return a;
+  return a
 }
-
