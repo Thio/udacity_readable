@@ -36,6 +36,13 @@ export default function postsReducer(state = initialPostsReducerState, action) {
         }
         return post
       })
+    case actionDefinition.updatePost:
+      return state.map(post => {
+        if (post.id === action.payload.id) {
+          post = action.payload
+        }
+        return post
+      })
     default:
       return state
   }

@@ -9,10 +9,6 @@ import * as postsDs from 'util/dataServices/postsDs'
 import * as commentDs from 'util/dataServices/commentDs'
 
 class ControlButtonsPostComment extends Component {
-  state = {
-    item: this.props.post && this.props.post.length > 0 ? this.props.post[0] : this.props.comment[0]
-  }
-
   static propTypes = {
     post: PropTypes.array,
     comment: PropTypes.array,
@@ -20,7 +16,8 @@ class ControlButtonsPostComment extends Component {
     toggleEditModeOnComment: PropTypes.func,
     voteOnPost: PropTypes.func,
     voteOnComment: PropTypes.func,
-    editComment: PropTypes.func
+    editComment: PropTypes.func,
+    editPost: PropTypes.func
   }
 
   constructor(props, context) {
@@ -30,7 +27,7 @@ class ControlButtonsPostComment extends Component {
     this.votePositive = this.votePositive.bind(this)
     this.voteNegative = this.voteNegative.bind(this)
     this.vote = this.vote.bind(this)
-    this.savePost = this.savePost.bind(this)
+    this.save = this.save.bind(this)
   }
 
   toggleEditMode() {
@@ -42,11 +39,21 @@ class ControlButtonsPostComment extends Component {
   }
 
   votePositive() {
-    this.vote(this.state.item.id, voteTypes.upVote)
+    if (this.assignedToPost()) {
+      this.vote(this.props.post[0].id, voteTypes.upVote)
+    } else {
+      this.vote(this.props.comment[0].id, voteTypes.upVote)
+    }
+
   }
 
   voteNegative() {
-    this.vote(this.state.item.id, voteTypes.downVote)
+    if (this.assignedToPost()) {
+      this.vote(this.props.post[0].id, voteTypes.downVote)
+    } else {
+      this.vote(this.props.comment[0].id, voteTypes.downVote)
+    }
+
   }
 
   vote(itemId, vote) {
@@ -64,27 +71,30 @@ class ControlButtonsPostComment extends Component {
     return false
   }
 
-  savePost() {
+  save() {
     // savepost
-    this.props.editComment(this.state.item)
-    this.toggleEditMode()
+    if (this.assignedToPost()) {
+      this.props.editPost(this.props.post[0])
+    } else {
+      this.props.editComment(this.props.comment[0])
+    }
   }
 
   render() {
-
+    const post = this.props.post && this.props.post.length > 0 ? this.props.post[0] : this.props.comment[0]
     return (
       <Grid>
         <Row>
           <Button bsStyle="success" onClick={this.votePositive}>
             <Glyphicon glyph="glyphicon glyphicon-menu-up" />
           </Button>
-          <Button disabled>{this.state.item.voteScore}</Button>
+          <Button disabled>{post.voteScore}</Button>
           <Button bsStyle="danger" onClick={this.voteNegative}>
             <Glyphicon glyph="glyphicon glyphicon-menu-down" />
           </Button>
           {
-            this.state.item.editMode ?
-              <Button bsStyle="info" onClick={this.savePost}>
+            post.editMode ?
+              <Button bsStyle="info" onClick={this.save}>
                 <Glyphicon glyph="glyphicon glyphicon-floppy-saved" />
               </Button>
               : <Button bsStyle="info" onClick={this.toggleEditMode}>
@@ -110,8 +120,13 @@ function mapDispatchToProps(dispatch) {
     voteOnPost: (postId, voteType) => postsDs.voteOnPost(postId, voteType).subscribe(function () {
       dispatch(postsActions.voteOnPost({ id: postId, voteScore: voteType === voteTypes.upVote ? 1 : -1 }))
     }),
-    editComment: comment => commentDs.editComment(comment.id, comment.timestamp, comment.body).subscribe(function (data) {
+    editComment: comment => commentDs.editComment(comment.id, new Date(), comment.body).subscribe(function (data) {
       dispatch(commentActions.editComment(data))
+      dispatch(commentActions.toggleEditModeOnComment(data.id))
+    }),
+    editPost: post => postsDs.editPost(post.id, post.title, post.body).subscribe(function (data) {
+      dispatch(postsActions.editPost(data))
+      dispatch(postsActions.toggleEditModeOnPost(data.id))
     })
   }
 }

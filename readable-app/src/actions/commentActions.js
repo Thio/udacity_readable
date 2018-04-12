@@ -3,7 +3,8 @@ export const actionDefinition = {
   fetchCommentsByID: "FETCH_FETCHCOMMENTBYPOSTID_FULFILLED",
   voteOnComment: "VOTE_ON_COMMENT",
   toggleEditMode: "TOGGLE_EDIT_MODE",
-  editComment: "PUT_EDITCOMMENT_FULFILLED"
+  editComment: "PUT_EDITCOMMENT_FULFILLED",
+  updateComment: "UPDATE_COMMENT"
 }
 
 export function fetchCommentByPostId(data) {
@@ -40,3 +41,11 @@ export function editComment(comment) {
     payload: comment
   }
 }
+
+export function updateComment(comment) {
+  return {
+    type: actionDefinition.updateComment,
+    payload: comment
+  }
+}
+

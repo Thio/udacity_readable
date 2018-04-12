@@ -5,7 +5,6 @@
     "es6": true
   },
   "extends": [
-    "eslint:recommended",
     "plugin:react/recommended"
   ],
   "globals": {
@@ -107,6 +106,12 @@
         "max": 1
       }
     ],
+    "no-cond-assign": [
+      "error"
+    ],
+    "no-compare-neg-zero": [
+      "error"
+    ],
     "no-unneeded-ternary": [
       "error"
     ],
@@ -176,6 +181,9 @@
     "no-extend-native": [
       "error"
     ],
+    "no-ex-assign": [
+      "error"
+    ],
     "no-fallthrough": [
       "error"
     ],
@@ -192,7 +200,7 @@
       "error"
     ],
     "no-param-reassign": [
-      "error",
+      "warn",
       {
         "props": false
       }

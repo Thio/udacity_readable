@@ -40,11 +40,10 @@ export default function commentReducer(state = initialCommentReducerState, actio
         }
         return comment
       })
-    case actionDefinition.editMode:
+    case actionDefinition.updateComment:
       return state.map(comment => {
         if (comment.id === action.payload.id) {
-          comment.timestamp = new Date(),
-          comment.body = action.payload.body
+          comment = action.payload
         }
         return comment
       })
