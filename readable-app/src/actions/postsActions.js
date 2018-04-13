@@ -4,7 +4,9 @@ export const actionDefinition = {
   voteOnPost: "VOTE_ON_POST",
   toggleEditMode: "TOGGLE_EDIT_MODE",
   editPost: "PUT_EDITPOST_FULFILLED",
-  updatePost: "UPDATE_POST"
+  updatePost: "UPDATE_POST",
+  createEmptyPost: "CREATE_EMPTY_POST",
+  createPost: "PUT_CREATEPOST_FULFILLED"
 }
 
 export function fetchAllPostsMock() {
@@ -47,5 +49,19 @@ export function updatePost(post) {
   return {
     type: actionDefinition.updatePost,
     payload: post
+  }
+}
+
+export function createPost(post) {
+  return {
+    type: actionDefinition.createPost,
+    payload: post
+  }
+}
+
+export function createEmptyPost(category) {
+  return {
+    type: actionDefinition.createEmptyPost,
+    payload: category
   }
 }

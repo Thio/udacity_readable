@@ -5,14 +5,23 @@ import { connect } from "react-redux"
 import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap/lib"
 
 import Post from 'components/post'
+import * as postActions from "actions/postsActions"
 
 class singleCategoryDisplay extends Component {
   static propTypes = {
     category: PropTypes.string,
-    posts: PropTypes.array
+    posts: PropTypes.array,
+    createEmptyPost: PropTypes.func
   }
 
-  state = {}
+  constructor(props, context) {
+    super(props, context)
+    this.AddPost = this.AddPost.bind(this)
+  }
+
+  AddPost() {
+    this.props.createEmptyPost(this.props.category)
+  }
 
   render() {
     return (
@@ -22,7 +31,7 @@ class singleCategoryDisplay extends Component {
             <h2 key={this.props.category}>{this.props.category}</h2>
           </Col>
           <Col md={1}>
-            <Button bsStyle="success" onClick={this.AddComment}><Glyphicon glyph="glyphicon glyphicon-plus" /></Button>
+            <Button bsStyle="success" onClick={this.AddPost}><Glyphicon glyph="glyphicon glyphicon-plus" /></Button>
           </Col>
         </Row>
         <Row>
@@ -37,8 +46,10 @@ class singleCategoryDisplay extends Component {
   }
 }
 
-function mapDispatchToProps() {
-  return {}
+function mapDispatchToProps(dispatch) {
+  return {
+    createEmptyPost: category => dispatch(postActions.createEmptyPost(category))
+  }
 }
 
 function mapStateToProps(state, ownProps) {

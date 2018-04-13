@@ -17,7 +17,8 @@ class ControlButtonsPostComment extends Component {
     voteOnPost: PropTypes.func,
     voteOnComment: PropTypes.func,
     editComment: PropTypes.func,
-    editPost: PropTypes.func
+    editPost: PropTypes.func,
+    createPost: PropTypes.func
   }
 
   constructor(props, context) {
@@ -74,7 +75,12 @@ class ControlButtonsPostComment extends Component {
   save() {
     // savepost
     if (this.assignedToPost()) {
-      this.props.editPost(this.props.post[0])
+      const post = this.props.post[0]
+      if(this.props.post[0].id.substring(0,5) !== "dummy") {
+        this.props.editPost(post)
+      } else {
+        this.props.createPost(post)
+      }
     } else {
       this.props.editComment(this.props.comment[0])
     }
@@ -120,14 +126,15 @@ function mapDispatchToProps(dispatch) {
     voteOnPost: (postId, voteType) => postsDs.voteOnPost(postId, voteType).subscribe(function () {
       dispatch(postsActions.voteOnPost({ id: postId, voteScore: voteType === voteTypes.upVote ? 1 : -1 }))
     }),
-    editComment: comment => commentDs.editComment(comment.id, new Date(), comment.body).subscribe(function (data) {
+    editComment: comment => commentDs.editComment(comment.id, new Date(), comment.body).subscribe(data => {
       dispatch(commentActions.editComment(data))
       dispatch(commentActions.toggleEditModeOnComment(data.id))
     }),
     editPost: post => postsDs.editPost(post.id, post.title, post.body).subscribe(function (data) {
       dispatch(postsActions.editPost(data))
       dispatch(postsActions.toggleEditModeOnPost(data.id))
-    })
+    }),
+    createPost: post => dispatch(postsActions.createPost(post))
   }
 }
 

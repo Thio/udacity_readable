@@ -29,13 +29,13 @@ export function addComment(postId, id, timestamp, body, author) {
     headers: {
       'Authorization': '1337'
     },
-    body: {
+    body: JSON.stringify({
       id: id,
       timestamp: timestamp,
       body: body,
       author: author,
       parentId: postId
-    }
+    })
   }).map(e => e.response)
   return a
 }
@@ -47,9 +47,9 @@ export function voteOnComment(id, voteType) {
     headers: {
       'Authorization': '1337'
     },
-    body: {
+    body: JSON.stringify({
       option: voteType
-    }
+    })
   }).map(e => e.response)
   return a
 }
@@ -61,11 +61,14 @@ export function editComment(id, timestamp, commentBody) {
     headers: {
       'Authorization': '1337'
     },
-    body: {
+    body: JSON.stringify({
       timestamp: timestamp,
       body: commentBody
-    }
-  }).map(e => e.response)
+    })
+  }).map(e => {
+    console.log("editComment", e.response)
+    return e.response
+  })
   return a
 }
 

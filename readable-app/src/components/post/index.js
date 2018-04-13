@@ -24,6 +24,7 @@ class Post extends Component {
     this.updateBody = this.updateBody.bind(this)
     this.updateTitle = this.updateTitle.bind(this)
     this.updatePostState = this.updatePostState.bind(this)
+    this.updateAuthor = this.updateAuthor.bind(this)
   }
 
   componentWillMount() {
@@ -43,6 +44,13 @@ class Post extends Component {
     this.updatePostState({
       ...this.props.post[0],
       title: event.target.value
+    })
+  }
+
+  updateAuthor(event) {
+    this.updatePostState({
+      ...this.props.post[0],
+      author: event.target.value
     })
   }
 
@@ -69,7 +77,7 @@ class Post extends Component {
                         </InputGroup>
                         <InputGroup>
                           <InputGroup.Addon>AUTHOR</InputGroup.Addon>
-                          <FormControl type="text" defaultValue={post.author} readOnly />
+                          <FormControl type="text" defaultValue={post.author} onBlur={this.updateAuthor} readOnly={post.id.substring(0,5) !== "dummy"} />
                         </InputGroup>
                         <InputGroup>
                           <InputGroup.Addon>TITLE</InputGroup.Addon>
