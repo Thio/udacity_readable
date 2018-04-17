@@ -3,14 +3,16 @@ import * as _ from 'lodash'
 import { errorString } from 'util/constValues'
 
 const AddPostsObjectKeys = ['id', 'timestamp', 'title', 'body', 'author', 'category']
+const header = {
+  'Authorization': '1337',
+  'Content-Type': 'application/json'
+}
 
 export function fetchAllPosts() {
   const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts`,
     method: 'GET',
-    headers: {
-      'Authorization': '1337'
-    }
+    headers: header
   }).map(e => e.response)
   return a
 }
@@ -19,9 +21,7 @@ export function fetchPostsByCategory(category) {
   const a = Rx.Observable.ajax({
     url: `http://localhost:3001/${category}/posts`,
     method: 'GET',
-    headers: {
-      'Authorization': '1337'
-    }
+    headers: header
   }).map(e => e.response)
   return a
 }
@@ -35,11 +35,16 @@ export function addPost(post) {
   const a = Rx.Observable.ajax({
     url: 'http://localhost:3001/posts',
     method: 'POST',
-    headers: {
-      'Authorization': '1337'
-    },
-    body: post
-  }).map(e => e.response)
+    headers: header,
+    body: JSON.stringify({
+      id: post.id,
+      timestamp: post.timestamp,
+      title: post.title,
+      body: post.body,
+      author: post.author,
+      category: post.category
+    })
+  }).map(e => _.merge(e.response, post))
   return a
 }
 
@@ -47,9 +52,7 @@ export function fetchPostById(id) {
   const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'GET',
-    headers: {
-      'Authorization': '1337'
-    }
+    headers: header
   }).map(e => e.response)
   return a
 }
@@ -58,9 +61,7 @@ export function voteOnPost(id, voteType) {
   const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'POST',
-    headers: {
-      'Authorization': '1337'
-    },
+    headers: header,
     body: {
       option: voteType
     }
@@ -72,9 +73,7 @@ export function editPost(id, postTitle, postBody) {
   const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'PUT',
-    headers: {
-      'Authorization': '1337'
-    },
+    headers: header,
     body: {
       title: postTitle,
       body: postBody
@@ -87,9 +86,7 @@ export function removePost(id) {
   const a = Rx.Observable.ajax({
     url: `http://localhost:3001/posts/${id}`,
     method: 'DELETE',
-    headers: {
-      'Authorization': '1337'
-    }
+    headers: header
   }).map(e => e.response)
   return a
 }

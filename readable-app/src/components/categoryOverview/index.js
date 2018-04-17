@@ -19,7 +19,7 @@ class CategoryOverView extends Component {
 
   render() {
     return (
-      <div className="categoryDisplay">
+      <div>
         {
           this.props.categories.map(category => (
             <SingleCategoryDisplay key={category.name} category={category.name}/>

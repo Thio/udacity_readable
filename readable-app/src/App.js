@@ -10,14 +10,18 @@ import 'css/animate.css'
 
 // Component Imports
 import NotFound from 'components/NotFound'
+import PropTypes from 'prop-types'
 import FirstGlance from 'components/firstGlance'
 import CategoryOverview from 'components/categoryOverview'
 import NavigationBar from 'components/navigation-bar'
+import SingleCategoryDisplay from 'components/SingleCategoryDisplay'
+import Post from 'components/post'
 
 class App extends React.Component {
-
+  static propTypes = {
+    location: PropTypes.object
+  }
   render() {
-
     return (
       <div className="App">
         {/* Header */}
@@ -29,7 +33,7 @@ class App extends React.Component {
           <Route
             exact path='/'
             render={() => (
-              <FirstGlance />
+              <CategoryOverview />
             )}
           />
           <Route
@@ -37,16 +41,21 @@ class App extends React.Component {
             render={() => (
               <NotFound />
             )} />
-            <Route
+          <Route
             exact path='/AllCategories'
             render={() => (
               <CategoryOverview />
             )} />
-            <Route
-            path='/Categories/'
-            render={() => (
-              <CategoryOverview />
-            )} />
+          <Route
+            path='/:category'
+            exact
+            component={props => <SingleCategoryDisplay {...props} />}
+          />
+          <Route
+            path='/post/:postId'
+            exact
+            component={props => <Post {...props} />}
+          />
           <Redirect from='*' to='/404' />
         </Switch>
 

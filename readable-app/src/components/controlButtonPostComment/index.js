@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import * as postsActions from "actions/postsActions"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import * as commentActions from "actions/commentActions"
+import * as postsActions from "actions/postsActions"
 import { Grid, Row, Button, Glyphicon } from "react-bootstrap/lib"
 import { voteTypes } from 'util/constValues'
+import { LinkContainer } from 'react-router-bootstrap'
 import * as postsDs from 'util/dataServices/postsDs'
 import * as commentDs from 'util/dataServices/commentDs'
 
@@ -18,7 +19,12 @@ class ControlButtonsPostComment extends Component {
     voteOnComment: PropTypes.func,
     editComment: PropTypes.func,
     editPost: PropTypes.func,
-    createPost: PropTypes.func
+    createPost: PropTypes.func,
+    createComment: PropTypes.func,
+    deleteComment: PropTypes.func,
+    deletePost: PropTypes.func,
+    category: PropTypes.string,
+    parentPost: PropTypes.array
   }
 
   constructor(props, context) {
@@ -29,6 +35,7 @@ class ControlButtonsPostComment extends Component {
     this.voteNegative = this.voteNegative.bind(this)
     this.vote = this.vote.bind(this)
     this.save = this.save.bind(this)
+    this.delete = this.delete.bind(this)
   }
 
   toggleEditMode() {
@@ -76,13 +83,28 @@ class ControlButtonsPostComment extends Component {
     // savepost
     if (this.assignedToPost()) {
       const post = this.props.post[0]
-      if(this.props.post[0].id.substring(0,5) !== "dummy") {
+      if (!post.new || false) {
         this.props.editPost(post)
       } else {
         this.props.createPost(post)
       }
     } else {
-      this.props.editComment(this.props.comment[0])
+      const comment = this.props.comment[0]
+      if (!comment.new || false) {
+        this.props.editComment(comment)
+      } else {
+        this.props.createComment(comment)
+      }
+    }
+  }
+
+  delete() {
+    if (this.assignedToPost()) {
+      const post = this.props.post[0]
+      this.props.deletePost(post)
+    } else {
+      const comment = this.props.comment[0]
+      this.props.deleteComment(comment)
     }
   }
 
@@ -90,25 +112,35 @@ class ControlButtonsPostComment extends Component {
     const post = this.props.post && this.props.post.length > 0 ? this.props.post[0] : this.props.comment[0]
     return (
       <Grid>
-        <Row>
-          <Button bsStyle="success" onClick={this.votePositive}>
-            <Glyphicon glyph="glyphicon glyphicon-menu-up" />
-          </Button>
-          <Button disabled>{post.voteScore}</Button>
-          <Button bsStyle="danger" onClick={this.voteNegative}>
-            <Glyphicon glyph="glyphicon glyphicon-menu-down" />
-          </Button>
-          {
-            post.editMode ?
-              <Button bsStyle="info" onClick={this.save}>
-                <Glyphicon glyph="glyphicon glyphicon-floppy-saved" />
+        {post ?
+          <Row>
+            <Button bsStyle="success" onClick={this.votePositive}>
+              <Glyphicon glyph="glyphicon glyphicon-menu-up" />
+            </Button>
+            <Button disabled>{post.voteScore}</Button>
+            <Button bsStyle="danger" onClick={this.voteNegative}>
+              <Glyphicon glyph="glyphicon glyphicon-menu-down" />
+            </Button>
+            {
+              post.editMode ?
+                <Button bsStyle="info" onClick={this.save}>
+                  <Glyphicon glyph="glyphicon glyphicon-floppy-saved" />
+                </Button>
+                : <Button bsStyle="info" onClick={this.toggleEditMode}>
+                  <Glyphicon glyph="glyphicon glyphicon-pencil" />
+                </Button>
+            }
+            <LinkContainer key={post.name} to={`/post/${this.props.post[0] ? this.props.post[0].id : this.props.parentPost[0].id}`}>
+              <Button bsStyle="info">
+                <Glyphicon glyph="glyphicon glyphicon-align-justify" />
               </Button>
-              : <Button bsStyle="info" onClick={this.toggleEditMode}>
-                <Glyphicon glyph="glyphicon glyphicon-pencil" />
-              </Button>
-          }
-          <Button bsStyle="info"><Glyphicon glyph="glyphicon glyphicon-align-justify" /></Button>
-        </Row>
+            </LinkContainer>
+            <Button bsStyle="info" onClick={this.delete}>
+              <Glyphicon glyph="glyphicon glyphicon-trash" />
+            </Button>
+          </Row>
+          : <Row />
+        }
       </Grid>
     )
   }
@@ -123,7 +155,7 @@ function mapDispatchToProps(dispatch) {
         dispatch(commentActions.voteOnComment({ id: commentId, voteScore: voteType === voteTypes.upVote ? 1 : -1 }))
       })
     },
-    voteOnPost: (postId, voteType) => postsDs.voteOnPost(postId, voteType).subscribe(function () {
+    voteOnPost: (postId, voteType) => postsDs.voteOnPost(postId, voteType.toString()).subscribe(function () {
       dispatch(postsActions.voteOnPost({ id: postId, voteScore: voteType === voteTypes.upVote ? 1 : -1 }))
     }),
     editComment: comment => commentDs.editComment(comment.id, new Date(), comment.body).subscribe(data => {
@@ -134,14 +166,27 @@ function mapDispatchToProps(dispatch) {
       dispatch(postsActions.editPost(data))
       dispatch(postsActions.toggleEditModeOnPost(data.id))
     }),
-    createPost: post => dispatch(postsActions.createPost(post))
+    createPost: post => postsDs.addPost(post).subscribe(function (data) {
+      dispatch(postsActions.createPost(data))
+      dispatch(postsActions.toggleEditModeOnPost(data.id))
+    }),
+    createComment: comment => commentDs.addComment(comment.parentId, comment).subscribe(function (data) {
+      dispatch(commentActions.createComment(data))
+    }),
+    deletePost: post => postsDs.removePost(post.id).subscribe(function (data) {
+      dispatch(postsActions.deletePost(data))
+    }),
+    deleteComment: comment => commentDs.deleteComment(comment.id).subscribe(function (data) {
+      dispatch(commentActions.deleteComment(data))
+    })
   }
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    post: state.posts.filter(post => post.id === ownProps.id),
-    comment: state.comment.filter(comment => comment.id === ownProps.id)
+    post: state.posts.filter(post => (ownProps.item && post.id === ownProps.item.id || false)),
+    parentPost: state.posts.filter(post => (ownProps.item && post.id === ownProps.item.parentId || false)),
+    comment: state.comment.filter(comment => (ownProps.item && comment.id === ownProps.item.id) || false)
   }
 }
 

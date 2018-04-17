@@ -43,7 +43,7 @@ class NavigationBar extends Component {
               {
                 this.props.category.map(categoryObj => (
                   categoryObj ?
-                    <LinkContainer key={categoryObj.name} to={`/Categories/${categoryObj.path}`}>
+                    <LinkContainer key={categoryObj.name} to={`/${categoryObj.path}`}>
                       <NavItem key={categoryObj.name}>{_.capitalize(categoryObj.name)}</NavItem>
                     </LinkContainer>
                     :

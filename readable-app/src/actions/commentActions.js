@@ -4,7 +4,10 @@ export const actionDefinition = {
   voteOnComment: "VOTE_ON_COMMENT",
   toggleEditMode: "TOGGLE_EDIT_MODE",
   editComment: "PUT_EDITCOMMENT_FULFILLED",
-  updateComment: "UPDATE_COMMENT"
+  updateComment: "UPDATE_COMMENT",
+  createEmptyComment: "CREATE_EMPTY_COMMENT",
+  createComment: "PUT_CREATECOMMENT_FULFILLED",
+  deleteComment: "PUT_DELETECOMMENT_FULFILLED"
 }
 
 export function fetchCommentByPostId(data) {
@@ -49,3 +52,23 @@ export function updateComment(comment) {
   }
 }
 
+export function createComment(comment) {
+  return {
+    type: actionDefinition.createComment,
+    payload: comment
+  }
+}
+
+export function createEmptyComment(postId) {
+  return {
+    type: actionDefinition.createEmptyComment,
+    payload: postId
+  }
+}
+
+export function deleteComment(comment) {
+  return {
+    type: actionDefinition.deleteComment,
+    payload: comment.id
+  }
+}

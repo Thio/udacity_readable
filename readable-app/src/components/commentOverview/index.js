@@ -26,10 +26,10 @@ class commentOverview extends Component {
     const comments = this.props.comments
     return (
       <Grid>
-        <Row className="show-grid" >
+        <Row className="show-grid">
             {
               comments.map(comment =>
-                <Comment key={comment.id} id={comment.id} />
+                <Comment key={comment.id} comment={comment}/>
               )
             }
         </Row>

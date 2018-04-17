@@ -2,6 +2,15 @@ import { actionDefinition } from 'actions/commentActions'
 
 const initialCommentReducerState = []
 
+const emptyComment = {
+  id: "dummy",
+  parentId: null,
+  body: "",
+  author: "",
+  voteScore: 0,
+  new: true
+}
+
 /*
   ____   ___  _   _ _____   __  __ _   _ _____  _  _____ _____   _____ _   _ _____   ____ _____  _  _____ ___
  |  _ \ / _ \| \ | |_   _| |  \/  | | | |_   _|/ \|_   _| ____| |_   _| | | | ____| / ___|_   _|/ \|_   _| ____|
@@ -20,7 +29,8 @@ const initialCommentReducerState = []
 export default function commentReducer(state = initialCommentReducerState, action) {
   switch (action.type) {
     case actionDefinition.fetchCommentsByPostId:
-      return action.payload.map(comment => extendPayloadOfProperties(comment))
+      const a = action.payload.filter(item => state.filter(data => data.id === item.id).length === 0)
+      return state.concat(a)
     case actionDefinition.fetchCommentsById:
       return [
         ...state.filter((data => data.id !== action.payload.id)),
@@ -42,16 +52,39 @@ export default function commentReducer(state = initialCommentReducerState, actio
       })
     case actionDefinition.updateComment:
       return state.map(comment => {
-        if (comment.id === action.payload.id) {
-          comment = action.payload
+        let c = comment
+        if (c.id === action.payload.id) {
+          c = action.payload
+        }
+        return c
+      })
+    case actionDefinition.createEmptyComment:
+      const dummy = state.filter(comment => comment.new)[0]
+      if (!dummy) {
+        let comment = Object.assign({}, emptyComment)
+        comment.id = `${Date.now()}`
+        comment.parentId = action.payload
+        comment.editMode = true
+        comment.timestamp = Date.now()
+        return state.concat(comment)
+      }
+      return state
+    case actionDefinition.createComment:
+      return state.map(comment => {
+        if (comment.new ) {
+          comment.new = false,
+          comment.editMode = false
         }
         return comment
       })
+    case actionDefinition.deleteComment:
+      return state.filter(comment => comment.id !== action.payload)
     default:
       return state
   }
 }
 
 function extendPayloadOfProperties(obj) {
-  return Object.assign(obj, { "editMode": false })
+  const obje = Object.assign(obj, { "editMode": false, "new": false })
+  return obje
 }

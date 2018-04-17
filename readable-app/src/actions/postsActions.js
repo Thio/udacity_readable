@@ -6,7 +6,9 @@ export const actionDefinition = {
   editPost: "PUT_EDITPOST_FULFILLED",
   updatePost: "UPDATE_POST",
   createEmptyPost: "CREATE_EMPTY_POST",
-  createPost: "PUT_CREATEPOST_FULFILLED"
+  createPost: "PUT_CREATEPOST_FULFILLED",
+  deletePost: "DELETE_DELETEPOST_FULFILLED",
+  fetchPostById: "GET_FETCHPOSTBYID_FULFILLED"
 }
 
 export function fetchAllPostsMock() {
@@ -63,5 +65,19 @@ export function createEmptyPost(category) {
   return {
     type: actionDefinition.createEmptyPost,
     payload: category
+  }
+}
+
+export function deletePost(post) {
+  return {
+    type: actionDefinition.deletePost,
+    payload: post.id
+  }
+}
+
+export function fetchPostById(post) {
+  return {
+    type: actionDefinition.fetchPostById,
+    payload: post
   }
 }

@@ -1,4 +1,5 @@
 import { actionDefinition } from 'actions/postsActions'
+import * as _ from 'lodash'
 
 const initialPostsReducerState = []
 
@@ -7,7 +8,9 @@ const emptyPost = {
   title: "",
   body: "",
   author: "",
-  category: ""
+  category: "",
+  new: "true",
+  voteScore: 0
 }
 
 /*
@@ -28,7 +31,8 @@ const emptyPost = {
 export default function postsReducer(state = initialPostsReducerState, action) {
   switch (action.type) {
     case actionDefinition.fetchAllPosts:
-      return action.payload.map(post => extendPayloadOfProperties(post))
+
+      return _.merge(action.payload.map(post => extendPayloadOfProperties(post)), state)
     case actionDefinition.toggleEditMode:
       return state.map(post => {
         if (post.id === action.payload) {
@@ -45,34 +49,42 @@ export default function postsReducer(state = initialPostsReducerState, action) {
       })
     case actionDefinition.updatePost:
       return state.map(post => {
+        var cp = post
         if (post.id === action.payload.id) {
-          post = action.payload
+          cp = action.payload
+          return cp
         }
         return post
       })
     case actionDefinition.createEmptyPost:
-      const dummy = state.filter(post => post.id === "dummy")[0]
+      const dummy = state.filter(post => !!post.new === true)[0]
       if (!dummy) {
         let post = Object.assign({}, emptyPost)
-        post.id = `${post.id}_${new Date()}`
+        post.id = `${Date.now()}`
         post.category = action.payload
         post.editMode = true
-        post.timestamp = new Date()
+        post.timestamp = Date.now()
         return state.concat(post)
       }
       return state
     case actionDefinition.createPost:
       return state.map(post => {
-        if (post.id === emptyPost.id) {
-          post.id = post.id.splice(0,6)
+        if (post.new) {
+          post.new = false
         }
         return post
       })
+    case actionDefinition.deletePost:
+      return state.filter(post => post.id !== action.payload)
+    case actionDefinition.fetchPostById:
+      return _.merge(action.payload.map(post => extendPayloadOfProperties(post)), state)
     default:
       return state
   }
 }
 
 function extendPayloadOfProperties(obj) {
-  return Object.assign(obj, { "editMode": false })
+  const obje = Object.assign(obj, { "editMode": false })
+  const object = Object.assign(obje, { "new": false })
+  return object
 }
