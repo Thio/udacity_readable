@@ -22,7 +22,8 @@ class Post extends Component {
     createEmptyComment: PropTypes.func,
     match: PropTypes.object,
     fetchAllPosts: PropTypes.func,
-    history: PropTypes.object
+    history: PropTypes.object,
+    props: PropTypes.object
   }
 
   constructor(props, context) {
@@ -36,7 +37,7 @@ class Post extends Component {
   componentWillReceiveProps() {
     if (this.props.post.length < 1 && this.props.postCount === 0) {
       this.props.fetchAllPosts()
-    } else if (this.props.post.length < 1 && this.props.postCount !== 0) {
+    } else if (this.props.post.length < 1 && this.props.postCount !== 0 || (this.props.match && (this.props.post[0].category !== this.props.match.params.category))) {
       this.props.history.push("/404")
     }
   }

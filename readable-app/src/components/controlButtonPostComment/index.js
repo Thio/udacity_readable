@@ -110,6 +110,7 @@ class ControlButtonsPostComment extends Component {
 
   render() {
     const post = this.props.post && this.props.post.length > 0 ? this.props.post[0] : this.props.comment[0]
+    const parentPost = this.props.post[0] ? this.props.post[0] : this.props.parentPost[0]
     return (
       <Grid>
         {post ?
@@ -130,7 +131,7 @@ class ControlButtonsPostComment extends Component {
                   <Glyphicon glyph="glyphicon glyphicon-pencil" />
                 </Button>
             }
-            <LinkContainer key={post.name} to={`/post/${this.props.post[0] ? this.props.post[0].id : this.props.parentPost[0].id}`}>
+            <LinkContainer key={post.name} to={`/${parentPost.category}/${parentPost.id}`}>
               <Button bsStyle="info">
                 <Glyphicon glyph="glyphicon glyphicon-align-justify" />
               </Button>

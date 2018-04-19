@@ -8,6 +8,7 @@ import Post from 'components/post'
 import * as postActions from "actions/postsActions"
 import * as postsActions from 'actions/postsActions'
 import * as postsDs from 'util/dataServices/postsDs'
+import 'components/SingleCategoryDisplay/singleCategoryDisplay.css'
 
 class singleCategoryDisplay extends Component {
   static propTypes = {
@@ -22,6 +23,9 @@ class singleCategoryDisplay extends Component {
   constructor(props, context) {
     super(props, context)
     this.AddPost = this.AddPost.bind(this)
+    this.sortByDate = this.sortByDate.bind(this)
+    this.sortByVote = this.sortByVote.bind(this)
+    this.state = {sortOrder: 1}
   }
 
   componentWillMount = () => {
@@ -38,21 +42,51 @@ class singleCategoryDisplay extends Component {
     this.props.createEmptyPost(this.props.category || this.props.match.params.category)
   }
 
+  sortFunction = [
+    function (a,b) { // sort timestamp asc
+      return a.timestamp - b.timestamp
+    },
+    function (a,b) { // sort timestamp desc
+      return b.timestamp - a.timestamp
+    },
+    function (a,b) { // sort voteScore asc
+      return a.voteScore - b.voteScore
+    },
+    function (a,b) { // sort voteScore desc
+      return b.voteScore - a.voteScore
+    }
+  ]
+
+  sortByDate() {
+    this.setState(state => {
+      return {sortOrder: state.sortOrder === 1 ? 2 : 1}
+    })
+  }
+
+  sortByVote() {
+    this.setState(state => {
+      return {sortOrder: state.sortOrder === 3 ? 4 : 3}
+    })
+  }
+
   render() {
     const cat = this.props.category || this.props.match.params.category
+    const sortPosts = this.props.posts.sort(this.sortFunction[this.state.sortOrder - 1])
     return (
       <Grid>
         <Row>
           <Col md={2}>
             <h2 key={cat}>{cat}</h2>
           </Col>
-          <Col md={1}>
-            <Button bsStyle="success" onClick={this.AddPost}><Glyphicon glyph="glyphicon glyphicon-plus" /></Button>
+          <Col md={3}>
+            <Button className="categoryButtons" bsStyle="success" onClick={this.AddPost}><Glyphicon glyph="glyphicon glyphicon-plus" /></Button>
+            <Button className="categoryButtons" bsStyle="success" onClick={this.sortByDate}><Glyphicon glyph="glyphicon glyphicon-sort-by-order" /></Button>
+            <Button className="categoryButtons" bsStyle="success" onClick={this.sortByVote}><Glyphicon glyph="glyphicon glyphicon-sort-by-attributes" /></Button>
           </Col>
         </Row>
         <Row>
           {
-            this.props.posts.map(post => (
+            sortPosts.map(post => (
               <Post key={post.id} postId={post.id} />
             ))
           }
