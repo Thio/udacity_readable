@@ -52,7 +52,7 @@ class App extends React.Component {
             component={props => <SingleCategoryDisplay {...props} />}
           />
           <Route
-            path='/post/:postId'
+            path='/:category/:postId'
             exact
             component={props => <Post {...props} />}
           />
